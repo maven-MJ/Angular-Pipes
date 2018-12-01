@@ -1,0 +1,32 @@
+//Author Manoj K Joshi
+//EX : {{"Format me {0}" | |stringformat:["replaced"]}}
+
+import { Pipe, PipeTransform } from '@angular/core';
+
+@Pipe({
+    name: 'stringformat'
+})
+
+export class StringFormatPipe implements PipeTransform {
+    transform(): any {
+        let str = '';
+         // If we have more than one argument
+        if (arguments.length > 1) {
+        //argument 0 is not undefined
+          if (arguments[0]) {
+            str = arguments[0];
+              // going by all the params
+              for (let count = 0; count < arguments[1].length; count++) {
+                // Regular expression which will check items to be replaced {0}, {1} etc in the input string
+                let regToReplace = new RegExp('\\{' + count + '\\}');
+                // cross check if input string has this regToReplace 
+                if (str.match(regToReplace)) {
+                  //replace it
+                  str = str.replace(regToReplace, arguments[1][count]);
+                }
+              }
+            }
+          return str;
+        }
+      }
+}
